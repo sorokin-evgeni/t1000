@@ -4,18 +4,7 @@
     novalidate
     @submit.prevent="handleSubmit"
   >
-    <div v-if="schema.title" class="form-title">{{ schema.title }}</div>
-    <div v-if="schema.description" class="form-description">{{ schema.description }}</div>
-
-    <template v-if="schema.properties">
-      <template v-for="(fieldSchema, fieldKey) in schema.properties" :key="fieldKey">
-        <component
-          :is="resolveComponent(fieldSchema)"
-          v-bind="buildFieldProps(String(fieldKey), fieldSchema)"
-          :readonly="readonly"
-        />
-      </template>
-    </template>
+    <NestedObjectField v-if="schema.properties" :schema="schema" :readonly="readonly" />
 
     <button v-if="!readonly" type="submit" class="submit-button">
       {{ submitLabel }}
@@ -26,12 +15,10 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 import { useForm } from 'vee-validate'
-import type { Component } from 'vue'
-import { fieldRegistry } from '../registry/fieldRegistry'
 import { buildInitialValues } from '../utils/initialValues'
 import { schemaToYup } from '../utils/schemaToYup'
-import { getFieldLabel } from '../utils/labelUtils'
 import type { JSONSchema } from '../types/schema'
+import NestedObjectField from './NestedObjectField.vue'
 
 interface Props {
   schema: JSONSchema
@@ -78,25 +65,6 @@ watch(
   { deep: true },
 )
 
-function resolveComponent(fieldSchema: JSONSchema): Component | undefined {
-  return fieldRegistry.resolve(fieldSchema)?.component
-}
-
-function buildFieldProps(key: string, fieldSchema: JSONSchema): Record<string, unknown> {
-  const registration = fieldRegistry.resolve(fieldSchema)
-  const label = getFieldLabel(fieldSchema, key)
-  const required = (props.schema.required ?? []).includes(key)
-
-  return {
-    name: key,
-    fieldId: `field-${key}`,
-    label,
-    required,
-    hint: fieldSchema.description,
-    ...(registration?.buildProps?.(fieldSchema) ?? {}),
-  }
-}
-
 const handleSubmit = veeHandleSubmit((formValues) => {
   emit('submit', formValues as Record<string, unknown>)
 })
@@ -106,20 +74,6 @@ const handleSubmit = veeHandleSubmit((formValues) => {
 .dynamic-form {
   font-family: system-ui, -apple-system, sans-serif;
   max-width: 560px;
-}
-
-.form-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1a1a2e;
-  margin-bottom: 6px;
-}
-
-.form-description {
-  font-size: 14px;
-  color: #6b7280;
-  margin-bottom: 24px;
-  line-height: 1.5;
 }
 
 .submit-button {
