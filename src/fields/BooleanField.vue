@@ -21,7 +21,7 @@
         :aria-invalid="!!displayError"
         class="checkbox-input"
         :class="{ 'checkbox-input--error': !!displayError }"
-        @change="handleChange"
+        @change="handleChange(($event.target as HTMLInputElement).checked)"
         @blur="handleBlur"
       />
       <span
