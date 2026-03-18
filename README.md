@@ -108,6 +108,10 @@ fieldRegistry.register({
 
 ## Storybook
 
+Задеплоенная версия: **https://sorokin-evgeni.github.io/t1000/**
+
+### Локальный запуск
+
 Интерактивная документация со всеми историями и Playground для ввода произвольной JSON Schema:
 
 ```bash
