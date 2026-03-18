@@ -37,16 +37,9 @@
 import { computed } from 'vue'
 import { useField } from 'vee-validate'
 import FieldWrapper from './FieldWrapper.vue'
+import type { DisableableFieldProps } from './fieldProps'
 
-interface Props {
-  name: string
-  label?: string
-  fieldId?: string
-  hint?: string
-  required?: boolean
-  readonly?: boolean
-  disabled?: boolean
-}
+interface Props extends DisableableFieldProps {}
 
 const props = withDefaults(defineProps<Props>(), {
   label: undefined,

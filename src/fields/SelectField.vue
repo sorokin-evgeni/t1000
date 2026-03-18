@@ -13,11 +13,11 @@
         :value="value"
         :disabled="disabled"
         :aria-invalid="!!displayError"
-        class="field-select"
+        class="field-input"
         :class="{
-          'field-select--error': !!displayError,
-          'field-select--placeholder': !value,
-          'field-select--valid': meta.touched && meta.valid,
+          'field-input--error': !!displayError,
+          'field-input--placeholder': !value,
+          'field-input--valid': meta.touched && meta.valid,
         }"
         @change="handleChange"
         @blur="handleBlur"
@@ -44,20 +44,14 @@
 import { computed } from 'vue'
 import { useField } from 'vee-validate'
 import FieldWrapper from './FieldWrapper.vue'
+import type { DisableableFieldProps } from './fieldProps'
 
 interface SelectOption {
   value: string
   label: string
 }
 
-interface Props {
-  name: string
-  label?: string
-  fieldId?: string
-  hint?: string
-  required?: boolean
-  readonly?: boolean
-  disabled?: boolean
+interface Props extends DisableableFieldProps {
   placeholder?: string
   enumValues?: (string | number | boolean | null)[]
 }
@@ -97,58 +91,22 @@ const displayValue = computed(() => {
 </script>
 
 <style scoped>
+@import './fieldInput.css';
+
 .select-wrapper {
   position: relative;
   display: block;
 }
 
-.field-select {
-  display: block;
-  width: 100%;
+.field-input {
   padding: 8px 36px 8px 12px;
-  font-size: 14px;
-  font-family: system-ui, -apple-system, sans-serif;
-  color: #111827;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  box-sizing: border-box;
   appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  outline: none;
 }
 
-.field-select--placeholder {
+.field-input--placeholder {
   color: #9ca3af;
-}
-
-.field-select:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
-}
-
-.field-select--error {
-  border-color: #ef4444;
-}
-
-.field-select--error:focus {
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
-}
-
-.field-select--valid {
-  border-color: #10b981;
-}
-
-.field-select--valid:focus {
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15);
-}
-
-.field-select:disabled {
-  background-color: #f9fafb;
-  color: #9ca3af;
-  cursor: not-allowed;
 }
 
 .select-arrow {
@@ -160,12 +118,5 @@ const displayValue = computed(() => {
   color: #6b7280;
   display: flex;
   align-items: center;
-}
-
-.readonly-value {
-  display: block;
-  font-size: 14px;
-  color: #111827;
-  padding: 4px 0;
 }
 </style>

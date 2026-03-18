@@ -75,14 +75,9 @@
 import { computed } from 'vue'
 import { useField } from 'vee-validate'
 import type { JSONSchema } from '../core/types/schema'
+import type { BaseFieldProps } from './fieldProps'
 
-interface Props {
-  name: string
-  label?: string
-  fieldId?: string
-  hint?: string
-  required?: boolean
-  readonly?: boolean
+interface Props extends BaseFieldProps {
   itemSchema?: JSONSchema
   minItems?: number
   maxItems?: number
