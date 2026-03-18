@@ -2,6 +2,8 @@
 
 Библиотека для построения динамических форм на основе JSON Schema. Получает схему — рендерит готовую форму с валидацией, полями нужных типов и поддержкой вложенных объектов и массивов.
 
+**Storybook:** https://sorokin-evgeni.github.io/t1000/
+
 **Стек:** Vue 3 · vee-validate · yup · TypeScript
 
 ---
@@ -107,8 +109,6 @@ fieldRegistry.register({
 ---
 
 ## Storybook
-
-Задеплоенная версия: **https://sorokin-evgeni.github.io/t1000/**
 
 ### Локальный запуск
 
